@@ -75,7 +75,6 @@ Run the `scripts/retrain.py` script with the `-h` (help) flag to see all options
 # cd /path/to/tensorflow-for-poets-2
 python -m scripts.retrain -h
 ```
-*If this command fails, make sure you have activated your virtualenv and you have installed the `tensorflowjs` Python package*.  
 
 #### Add a dataset  
 Create folders in `tf_files` and add your dataset (folders containing images) to the `tf_files/dataset` directory. The classification labels used when running inference will be generated from the **folder names**.
@@ -137,7 +136,6 @@ python -m scripts.label_image \
 
 # Top result should be 'daisy'
 ```
-Let's do that in a browser!  
 
 ---
 
@@ -347,7 +345,7 @@ Total size: 2MB (using gzip compression).
 ---
 
 ## gzip
-You can save quite some bandwidth by serving static assets (including the model) compressed with [gzip](https://en.wikipedia.org/wiki/Gzip). This can be done manually or by enabling gzip in your server config.  
+It's possible to save bandwidth by serving static assets (including the model) by using [gzip](https://en.wikipedia.org/wiki/Gzip) compression. This can be done manually or by enabling gzip in your server config.  
 
 For example, add to */etc/nginx/conf.d/default.conf*
 ```nginx
@@ -367,4 +365,4 @@ If you are using CloudFlare CDN, make sure to disable Brotli compression (for so
 
 Please let me know if you notice any mistakes or things to improve. I'm always open to suggestions and feedback!  
 
-All credits go to the creators of [TensorFlow for Poets](https://codelabs.developers.google.com/codelabs/tensorflow-for-poets/index.html?index=..%2F..%2Findex#0) and [TensorFlow.js](https://js.tensorflow.org/). This guide is basically a combination of the original TensorFlow for Poets guide and the TensorFlow.js [documentation](https://js.tensorflow.org/tutorials/). These resources have accelerated my process of experimenting with ML in the browser a lot. Also, I hope many students and creators will benefit from higher-level machine learning frameworks such as [ml5js](https://ml5js.org/).
+All credits go to the creators of [TensorFlow for Poets](https://codelabs.developers.google.com/codelabs/tensorflow-for-poets/index.html?index=..%2F..%2Findex#0) and [TensorFlow.js](https://js.tensorflow.org/). This guide is basically a combination of the original TensorFlow for Poets guide and the TensorFlow.js [documentation](https://js.tensorflow.org/tutorials/). Check out [ml5js](https://ml5js.org/).
