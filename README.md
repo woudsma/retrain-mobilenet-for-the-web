@@ -291,7 +291,7 @@ const IMAGE_SIZE = 128 // Model input size
 const loadModel = async () => {
   const model = await loadFrozenModel(MODEL_URL, WEIGHTS_URL)
   const input = tf.zeros([1, IMAGE_SIZE, IMAGE_SIZE, 3])
-  model.predict({ input }, 0) // Warm up GPU
+  model.predict({ input }) // Warm up GPU
   return model
 }
 
