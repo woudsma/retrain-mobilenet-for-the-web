@@ -1,3 +1,25 @@
+# Retrained MobileNet V1 TensorFlow.js example app
+
+Repository containing a HTML/JS boilerplate for serving a retrained MobileNet V1 model.  
+Also includes a `Dockerfile` and `nginx.default.conf` (with gzip enabled) for easy deploys on e.g. [Dokku](http://dokku.viewdocs.io/dokku/).  
+
+#### Installation
+```
+git clone https://github.com/woudsma/retrained-mobilenet-v1-tfjs-example
+cd retrained-mobilenet-v1-tfjs-example
+
+# Install dependencies
+npm install
+
+# Start development server
+npm start
+
+# Create production build
+npm run build
+```
+
+----
+
 # Retrain a MobileNet model for the web
 ###### *DRAFT*  
 Combining [TensorFlow for Poets](https://codelabs.developers.google.com/codelabs/tensorflow-for-poets/index.html?index=..%2F..%2Findex#0) and [TensorFlow.js](https://github.com/tensorflow/tfjs).  
