@@ -1,4 +1,4 @@
-# Retrained MobileNet V1 TensorFlow.js example app
+# Retrain a MobileNet model and use it in the browser with TensorFlow.js
 
 Repository containing a HTML/JS boilerplate for serving a retrained MobileNet V1 model.  
 Also includes a `Dockerfile` and `nginx.default.conf` (with gzip enabled) for easy deploys on e.g. [Dokku](http://dokku.viewdocs.io/dokku/).  
