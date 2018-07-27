@@ -28,8 +28,8 @@ I'm using a MacBook Pro without Nvidia GPU.
 
 [MobileNets](https://github.com/tensorflow/models/blob/master/research/slim/nets/mobilenet_v1.md) can be used for image classification. This guide shows the steps I took to retrain a MobileNet on a custom dataset, and how to convert and use the retrained model in the browser using TensorFlow.js. The total time to set up, retrain the model and use it in the browser can take less than 45 minutes (depending on the size of your dataset).  
 
-Repository containing a HTML/JS boilerplate and a retrained MobileNet V1 model.  
-[https://github.com/woudsma/retrained-mobilenet-v1-tfjs-example](https://github.com/woudsma/retrained-mobilenet-v1-tfjs-example)
+Repository containing the example app (HTML/JS and a retrained MobileNet V1 model).  
+[https://github.com/woudsma/retrain-mobilenet-v1-for-the-web](https://github.com/woudsma/retrain-mobilenet-v1-for-the-web)
 
 ---
 
@@ -218,7 +218,7 @@ Create an app to run predictions in the browser using the retrained model conver
 With a few lines of code, we can classify an image using the retrained model. In this example, we use an `<img>` element as input to get a prediction. The model should also be able to accept `<video>` and `<canvas>` elements as input.  
 
 #### Prepare app folder structure and install dependencies
-###### Or clone the example [repository](https://github.com/woudsma/retrained-mobilenet-v1-tfjs-example)
+###### Or clone the example [repository](https://github.com/woudsma/retrain-mobilenet-v1-for-the-web)
 ```sh
 # Create app folder structure
 mkdir -p myproject-frontend/{public/assets/{model,images},src}
