@@ -1,0 +1,18 @@
+{
+  "name": "retrained-mobilenet-v1-tfjs-example",
+  "version": "1.0.0",
+  "description": "Retrain a MobileNet V1 model for the web with TensorFlow for Poets and TensorFlow.js",
+  "main": "index.js",
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build"
+  },
+  "author": "Tjerk Woudsma",
+  "license": "ISC",
+  "dependencies": {
+    "@tensorflow/tfjs": "^0.12.3",
+    "@tensorflow/tfjs-converter": "^0.5.4",
+    "@tensorflow/tfjs-core": "^0.12.7",
+    "react-scripts": "^1.1.4"
+  }
+}
