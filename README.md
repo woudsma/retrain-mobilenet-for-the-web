@@ -6,7 +6,7 @@ Also includes a `Dockerfile` and `nginx.default.conf` (with gzip enabled) for ea
 #### Installation
 ```
 git clone https://github.com/woudsma/retrain-mobilenet-v1-for-the-web
-cd retrained-mobilenet-v1-tfjs-example
+cd retrain-mobilenet-v1-for-the-web
 
 # Install dependencies
 npm install
