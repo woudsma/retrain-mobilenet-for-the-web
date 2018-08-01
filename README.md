@@ -26,7 +26,7 @@ Combining [TensorFlow for Poets](https://codelabs.developers.google.com/codelabs
 Retrain a MobileNet V1 model on your own dataset using the CPU only.  
 I'm using a MacBook Pro without Nvidia GPU.  
 
-[MobileNets](https://github.com/tensorflow/models/blob/master/research/slim/nets/mobilenet_v1.md) can be used for image classification. This guide shows the steps I took to retrain a MobileNet on a custom dataset, and how to convert and use the retrained model in the browser using TensorFlow.js. The total time to set up, retrain the model and use it in the browser can take less than 45 minutes (depending on the size of your dataset).  
+[MobileNets](https://github.com/tensorflow/models/blob/master/research/slim/nets/mobilenet_v1.md) can be used for image classification. This guide shows the steps I took to retrain a MobileNet on a custom dataset, and how to convert and use the retrained model in the browser using TensorFlow.js. The total time to set up, retrain the model and use it in the browser can take less than 30 minutes (depending on the size of your dataset).  
 
 Repository containing the example app (HTML/JS and a retrained MobileNet V1 model).  
 [https://github.com/woudsma/retrain-mobilenet-v1-for-the-web](https://github.com/woudsma/retrain-mobilenet-v1-for-the-web)
