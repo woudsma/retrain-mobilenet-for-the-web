@@ -4,7 +4,7 @@ Repository containing a HTML/JS boilerplate for serving a retrained MobileNet V1
 Also includes a `Dockerfile` and `nginx.default.conf` (with gzip enabled) for easy deploys on e.g. [Dokku](http://dokku.viewdocs.io/dokku/).  
 
 #### Installation
-```
+```sh
 git clone https://github.com/woudsma/retrain-mobilenet-v1-for-the-web
 cd retrain-mobilenet-v1-for-the-web
 
