@@ -1,35 +1,45 @@
-# Retrain a MobileNet model and use it in the browser with TensorFlow.js
+# Retrain MobileNet for the web
 
-Repository containing a HTML/JS boilerplate for serving a retrained MobileNet V1 model.  
+Repository containing a HTML/JS boilerplate for serving a retrained MobileNet V1 or V2 model.  
 Also includes a `Dockerfile` and `nginx.default.conf` (with gzip enabled) for easy deploys on e.g. [Dokku](http://dokku.viewdocs.io/dokku/).  
 
 #### Installation
 ```sh
-git clone https://github.com/woudsma/retrain-mobilenet-v1-for-the-web
-cd retrain-mobilenet-v1-for-the-web
-
+git clone https://github.com/woudsma/retrain-mobilenet-for-the-web
+cd retrain-mobilenet-for-the-web
+```
+##### Development
+```sh
 # Install dependencies
 npm install
 
-# Start development server
+# Start development server and visit http://localhost:3000
 npm start
 
 # Create production build
 npm run build
 ```
+##### Docker
+```sh
+npm install
+docker build -t retrain-mobilenet-for-the-web .
+docker run --rm -it -p 5000:5000 retrain-mobilenet-for-the-web
+# Visit http://localhost:5000
+# TODO: fix permissions on macOS
+```
 
 ----
 
-# Retrain a MobileNet model for the web
+# Retrain a MobileNet model and use it in the browser with TensorFlow.js
 ###### *DRAFT*  
 Combining [TensorFlow for Poets](https://codelabs.developers.google.com/codelabs/tensorflow-for-poets/index.html?index=..%2F..%2Findex#0) and [TensorFlow.js](https://github.com/tensorflow/tfjs).  
-Retrain a MobileNet V1 model on your own dataset using the CPU only.  
+Retrain a MobileNet V1 or V2 model on your own dataset using the CPU only.  
 I'm using a MacBook Pro without Nvidia GPU.  
 
 [MobileNets](https://github.com/tensorflow/models/blob/master/research/slim/nets/mobilenet_v1.md) can be used for image classification. This guide shows the steps I took to retrain a MobileNet on a custom dataset, and how to convert and use the retrained model in the browser using TensorFlow.js. The total time to set up, retrain the model and use it in the browser can take less than 30 minutes (depending on the size of your dataset).  
 
 Repository containing the example app (HTML/JS and a retrained MobileNet V1 model).  
-[https://github.com/woudsma/retrain-mobilenet-v1-for-the-web](https://github.com/woudsma/retrain-mobilenet-v1-for-the-web)
+[https://github.com/woudsma/retrain-mobilenet-for-the-web](https://github.com/woudsma/retrain-mobilenet-for-the-web)
 
 ---
 
@@ -55,29 +65,36 @@ List available environments: `lsvirtualenv`
 ---
 
 ## 2. Retrain a MobileNet model using a custom dataset
-**If you get stuck at any point, see the [TensorFlow for Poets](https://codelabs.developers.google.com/codelabs/tensorflow-for-poets/index.html?index=..%2F..%2Findex#0) codelab**  
+**If you get stuck at any point, see the [TensorFlow for Poets](https://codelabs.developers.google.com/codelabs/tensorflow-for-poets/index.html?index=..%2F..%2Findex#0) codelab, or [this article](https://proandroiddev.com/re-training-the-model-with-images-using-tensorflow-7758e9eb8db5)**  
 
-Active the project's virtualenv, install TensorFlow.js, and git clone the  `tensorflow-for-poets-2` [repository](https://github.com/googlecodelabs/tensorflow-for-poets-2).
+Active the project's virtualenv, install TensorFlow.js, and `git clone` the  [tensorflow-for-poets-2](https://github.com/googlecodelabs/tensorflow-for-poets-2) or [tensorflow/hub](https://github.com/tensorflow/hub) repository.
 ```sh
 # Activate project environment
 # Install TensorFlow.js (includes tensorflow, tensorboard, tensorflowjs_converter)
 workon myproject
 pip install tensorflowjs
 
-# Clone repo
-git clone https://github.com/googlecodelabs/tensorflow-for-poets-2
-cd tensorflow-for-poets-2
-```
-*Note: all further commands assume the present working directory is `tensorflow-for-poets-2`, and project virtualenv is activated.*  
+# Clone the TensorFlow for Poets repository (for MobileNet V1)
+git clone https://github.com/googlecodelabs/tensorflow-for-poets-2 retrain-mobilenet-v1
+cd retrain-mobilenet-v1
 
-Run the `scripts/retrain.py` script with the `-h` (help) flag to see all options.  
+# Clone the TensorFlow Hub repository (for MobileNet V2)
+git clone https://github.com/tensorflow/hub retrain-mobilenet-v2
+cd retrain-mobilenet-v2
+```
+*Note: all further commands assume the present working directory is `retrain-mobilenet-<version>`, and project virtualenv is activated.*  
+
+Run the `retrain.py` script with the `-h` (help) flag to see the options of the retrain script.  
 ```sh
-# cd /path/to/tensorflow-for-poets-2
+# cd /path/to/retrain-mobilenet-v1
 python -m scripts.retrain -h
+
+# cd /path/to/retrain-mobilenet-v2
+python examples/image_retraining/retrain.py -h
 ```
 
 #### Add a dataset  
-Create folders in `tf_files` and add your dataset (folders containing images) to the `tf_files/dataset` directory. The classification labels used when running inference will be generated from the **folder names**.
+Create a directory `tf_files`, add folders and add your dataset (folders containing images) to the `tf_files/dataset` directory. The classification labels used when running inference will be generated from the **folder names**.
 ```sh
 # Create folders
 mkdir -p tf_files/{bottlenecks,dataset,models,training_summaries}
@@ -94,13 +111,13 @@ cp -R flower_photos/* tf_files/dataset
 Start [TensorBoard](https://www.tensorflow.org/guide/summaries_and_tensorboard) from a new terminal window and visit `http://localhost:6006/`.  
 ```sh
 # Open new terminal window
-cd /path/to/tensorflow-for-poets-2
+cd /path/to/retrain-mobilenet-<version>
 workon myproject
 tensorboard --logdir tf_files/training_summaries
 ```
 
-#### Retrain a model using a pre-trained [MobileNet](https://github.com/tensorflow/models/blob/master/research/slim/nets/mobilenet_v1.md) model  
-To retrain a MobileNet model, choose an architecture from [this page](https://ai.googleblog.com/2017/06/mobilenets-open-source-models-for.html), and run the `scripts/retrain.py` script with your dataset. This guide only covers MobileNet V1. We found that `mobilenet_0.50_224` provides both decent accuracy and acceptable filesize (the model takes ~2.3MB after gzip compression). Smaller models such as `mobilenet_0.25_128` provide lower accuracy but require less bandwidth, and vice versa.  
+#### Retrain a model using a pre-trained [MobileNet V1](https://github.com/tensorflow/models/blob/master/research/slim/nets/mobilenet_v1.md) model  
+To retrain a MobileNet V1 model, choose an architecture from [this page](https://ai.googleblog.com/2017/06/mobilenets-open-source-models-for.html), and run the `retrain.py` script. We found that `mobilenet_0.50_224` provides both decent accuracy and acceptable filesize (the model takes ~2.3MB after gzip compression). Smaller models such as `mobilenet_0.25_128` provide lower accuracy but require less bandwidth, and vice versa.  
 
 This will take a few minutes (using the flowers dataset), or longer depending on the size of your dataset.
 ```sh
@@ -124,11 +141,33 @@ python -m scripts.retrain \
 
 For more information and how to adjust hyperparameters, check out the full [TensorFlow for Poets](https://codelabs.developers.google.com/codelabs/tensorflow-for-poets/index.html?index=..%2F..%2Findex#0) codelab.  
 
+#### Retrain a model using a pre-trained [MobileNet V2](https://github.com/tensorflow/models/tree/master/research/slim/nets/mobilenet) model  
+*Reference [article](https://proandroiddev.com/re-training-the-model-with-images-using-tensorflow-7758e9eb8db5)*.  
+Pick a TFHub module from [this page](https://github.com/tensorflow/hub/blob/master/docs/modules/image.md), and copy the link to the pre-trained model with type `feature_vector`.  
+```sh
+# Set environment variables
+MODULE=https://tfhub.dev/google/imagenet/mobilenet_v2_050_224/feature_vector/2
+
+# Start training
+python examples/image_retraining/retrain.py \
+  --image_dir=tf_files/dataset \
+  --tfhub_module=$MODULE \
+  --output_graph=retrained_graph.pb \
+  --output_labels=retrained_labels.txt \
+  --bottleneck_dir=tf_files/bottlenecks \
+  --summaries_dir=tf_files/training_summaries \
+  --intermediate_output_graphs_dir=tf_files/intermediate_graphs \
+  --intermediate_store_frequency=500 \
+  --saved_model_dir=tf_files/saved_model \
+  --how_many_training_steps=4000 \
+  --learning_rate=0.001
+```
+
 #### Test the model by classifying an image  
-Classify an image using the `scripts/label_image.py` script.  
+Classify an image using the [label_image.py](https://github.com/googlecodelabs/tensorflow-for-poets-2/blob/master/scripts/label_image.py) script.  
 (e.g. `tf_files/dataset/daisy/21652746_cc379e0eea_m.jpg` if you've retrained the model on the flowers dataset).
 ```sh
-python -m scripts.label_image \
+python label_image.py \
   --graph=tf_files/retrained_graph.pb \
   --input_width=$IMAGE_SIZE \
   --input_height=$IMAGE_SIZE \
@@ -142,9 +181,9 @@ python -m scripts.label_image \
 ## 3. Optimize for the web
 
 #### Quantize graph
-Quantize the retrained graph using the `scripts/quantize_graph.py` script. Although you could use and serve the retrained graph, serving the quantized graph saves bandwidth when using gzip compression.
+Quantize the retrained graph using the [quantize_graph.py](https://github.com/googlecodelabs/tensorflow-for-poets-2/blob/master/scripts/quantize_graph.py) script. Although you could use and serve the retrained graph, serving the quantized graph saves bandwidth when using gzip compression.
 ```sh
-python -m scripts.quantize_graph \
+python quantize_graph.py \
   --input=tf_files/retrained_graph.pb \
   --output=tf_files/quantized_graph.pb \
   --output_node_names=final_result \
@@ -183,7 +222,7 @@ cat tf_files/web/labels.json
 
 Folder structure after running `tensorflowjs_converter` and converting the dataset labels to `labels.json`.
 ```
-/path/to/tensorflow-for-poets-2/tf_files
+/path/to/tf_files
 ├── retrained_graph.pb
 ├── retrained_labels.txt
 ├── quantized_graph.pb
@@ -196,9 +235,9 @@ Folder structure after running `tensorflowjs_converter` and converting the datas
 │   └── ...
 ├── dataset
 │   └── ...
-├── models
+├── training_summaries
 │   └── ...
-└── training_summaries
+└── models|intermediate_graphs|saved_model|...
     └── ...
 ```
 *Optional*: check gzipped TensorFlow.js model size.
@@ -213,21 +252,16 @@ rm tf_files/web.tar.gz
 ---
 
 ## 4. Classifying images in the browser
-Create an app to run predictions in the browser using the retrained model converted by `tensorflowjs_converter`.  
+Create an app to run predictions in the browser using the retrained model converted by [tensorflowjs_converter](https://github.com/tensorflow/tfjs-converter).  
 
-With a few lines of code, we can classify an image using the retrained model. In this example, we use an `<img>` element as input to get a prediction. The model should also be able to accept `<video>` and `<canvas>` elements as input.  
+With a few lines of code, we can classify an image using the retrained model. In this example, we use an `<img>` element as input to get a prediction. Available input types: `ImageData|HTMLImageElement|HTMLCanvasElement|HTMLVideoElement`.  
 
 #### Prepare app folder structure and install dependencies
-###### Or clone the example [repository](https://github.com/woudsma/retrain-mobilenet-v1-for-the-web)
+###### Or clone the example [repository](https://github.com/woudsma/retrain-mobilenet-for-the-web)
 ```sh
 # Create app folder structure
 mkdir -p myproject-frontend/{public/assets/{model,images},src}
 cd myproject-frontend
-
-# Copy web model files to assets folder
-# Move the labels JSON file into the src folder
-cp /path/to/tensorflow-for-poets-2/tf_files/web/* public/assets/model
-mv public/assets/model/labels.json src/labels.json
 
 # Create HTML/JS files
 touch public/index.html src/index.js
@@ -235,6 +269,11 @@ touch public/index.html src/index.js
 # Install dependencies
 npm init -y
 npm install react-scripts @tensorflow/tfjs @tensorflow/tfjs-core @tensorflow/tfjs-converter
+
+# Copy web model files to assets folder
+# Move the labels JSON file into the src folder
+cp /path/to/tf_files/web/* public/assets/model
+mv public/assets/model/labels.json src/labels.json
 
 # Add a few test images to public/assets/images manually
 ```
@@ -288,8 +327,10 @@ const IMAGE_SIZE = 128 // Model input size
 
 const loadModel = async () => {
   const model = await loadFrozenModel(MODEL_URL, WEIGHTS_URL)
+  // Warm up GPU
   const input = tf.zeros([1, IMAGE_SIZE, IMAGE_SIZE, 3])
-  model.predict({ input }) // Warm up GPU
+  model.predict({ input }) // MobileNet V1
+  // model.predict({ Placeholder: input }) // MobileNet V2
   return model
 }
 
@@ -300,7 +341,8 @@ const predict = async (img, model) => {
   const offset = tf.scalar(255 / 2)
   const normalized = resized.sub(offset).div(offset)
   const input = normalized.expandDims(0)
-  const output = await tf.tidy(() => model.predict({ input })).data()
+  const output = await tf.tidy(() => model.predict({ input })).data() // MobileNet V1
+  // const output = await tf.tidy(() => model.predict({ Placeholder: input })).data() // MobileNet V2
   const predictions = labels
     .map((label, index) => ({ label, accuracy: output[index] }))
     .sort((a, b) => b.accuracy - a.accuracy)
@@ -365,4 +407,4 @@ If you are using CloudFlare CDN, make sure to disable Brotli compression (for so
 
 Please let me know if you notice any mistakes or things to improve. I'm always open to suggestions and feedback!  
 
-All credits go to the creators of [TensorFlow for Poets](https://codelabs.developers.google.com/codelabs/tensorflow-for-poets/index.html?index=..%2F..%2Findex#0) and [TensorFlow.js](https://js.tensorflow.org/). This guide is basically a combination of the original TensorFlow for Poets guide and the TensorFlow.js [documentation](https://js.tensorflow.org/tutorials/). Check out [ml5js](https://ml5js.org/).
+All credits go to the creators of [TensorFlow for Poets](https://codelabs.developers.google.com/codelabs/tensorflow-for-poets/index.html?index=..%2F..%2Findex#0) and [TensorFlow.js](https://js.tensorflow.org/). This guide is basically a combination of the original TensorFlow for Poets guide and the TensorFlow.js [documentation](https://js.tensorflow.org/tutorials/). Thanks to [Mateusz Budzar](https://proandroiddev.com/@mateuszbudzar) for a guide on [how to retrain a MobileNet V2 model](https://proandroiddev.com/re-training-the-model-with-images-using-tensorflow-7758e9eb8db5). Also, check out [ml5js](https://ml5js.org/)!
