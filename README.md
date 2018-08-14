@@ -377,8 +377,8 @@ Outputs `build` folder with static assets.
 ---
 
 #### Result
-HTML/JS + MobileNet_V1_0.25_224: 2MB
-HTML/JS + MobileNet_V2_0.35_224: 1.1MB
+HTML/JS + MobileNet_V1_0.25_224: 2MB  
+HTML/JS + MobileNet_V2_0.35_224: 1.1MB  
 *(using gzip compression)*  
 
 ![Result](https://i.imgur.com/d2CdF6H.png "Result")  
