@@ -3,16 +3,14 @@
 Repository containing a HTML/JS boilerplate for serving a retrained MobileNet V1 or V2 model.  
 Also includes a `Dockerfile` and `nginx.default.conf` (with gzip enabled) for easy deploys on e.g. [Dokku](http://dokku.viewdocs.io/dokku/).  
 
-#### Installation
+### Installation
 ```sh
 git clone https://github.com/woudsma/retrain-mobilenet-for-the-web
 cd retrain-mobilenet-for-the-web
+npm install
 ```
 ##### Development
 ```sh
-# Install dependencies
-npm install
-
 # Start development server and visit http://localhost:3000
 npm start
 
@@ -21,7 +19,6 @@ npm run build
 ```
 ##### Docker
 ```sh
-npm install
 docker build -t retrain-mobilenet-for-the-web .
 docker run --rm -it -p 5000:5000 retrain-mobilenet-for-the-web
 # Visit http://localhost:5000
