@@ -35,7 +35,7 @@ I'm using a MacBook Pro without Nvidia GPU.
 
 [MobileNets](https://github.com/tensorflow/models/blob/master/research/slim/nets/mobilenet_v1.md) can be used for image classification. This guide shows the steps I took to retrain a MobileNet on a custom dataset, and how to convert and use the retrained model in the browser using TensorFlow.js. The total time to set up, retrain the model and use it in the browser can take less than 30 minutes (depending on the size of your dataset).  
 
-Repository containing the example app (HTML/JS and a retrained MobileNet V1 model).  
+Repository containing the example app (HTML/JS and a retrained MobileNet V1/V2 model).  
 [https://github.com/woudsma/retrain-mobilenet-for-the-web](https://github.com/woudsma/retrain-mobilenet-for-the-web)
 
 ---
@@ -143,7 +143,7 @@ For more information and how to adjust hyperparameters, check out the full [Tens
 Pick a TFHub module from [this page](https://github.com/tensorflow/hub/blob/master/docs/modules/image.md), and copy the link to the pre-trained model with type `feature_vector`.  
 ```sh
 # Set environment variables
-MODULE=https://tfhub.dev/google/imagenet/mobilenet_v2_050_224/feature_vector/2
+MODULE=https://tfhub.dev/google/imagenet/mobilenet_v2_035_224/feature_vector/2
 
 # Start training
 python examples/image_retraining/retrain.py \
@@ -156,8 +156,8 @@ python examples/image_retraining/retrain.py \
   --intermediate_output_graphs_dir=tf_files/intermediate_graphs \
   --intermediate_store_frequency=500 \
   --saved_model_dir=tf_files/saved_model \
-  --how_many_training_steps=4000 \
-  --learning_rate=0.001
+  --how_many_training_steps=2000 \
+  --learning_rate=0.0333
 ```
 
 #### Test the model by classifying an image  
@@ -377,9 +377,11 @@ Outputs `build` folder with static assets.
 ---
 
 #### Result
-Total size: 2MB (using gzip compression).  
+HTML/JS + MobileNet_V1_0.25_224: 2MB
+HTML/JS + MobileNet_V2_0.35_224: 1.1MB
+*(using gzip compression)*  
 
-![Result](https://i.imgur.com/EXmdJ0V.jpg "Result")  
+![Result](https://i.imgur.com/d2CdF6H.png "Result")  
 
 ---
 
