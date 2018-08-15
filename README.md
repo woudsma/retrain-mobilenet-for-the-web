@@ -1,7 +1,7 @@
 # Retrain MobileNet for the web
 
-Repository containing a HTML/JS boilerplate for serving a retrained MobileNet V1 or V2 model.  
-Also includes a `Dockerfile` and `nginx.default.conf` (with gzip enabled) for easy deploys on e.g. [Dokku](http://dokku.viewdocs.io/dokku/).  
+This repository contains a HTML/JS boilerplate for serving a retrained MobileNet V1 or V2 model.  
+Includes a `Dockerfile` and `nginx.default.conf` for easy deploys on e.g. [Dokku](http://dokku.viewdocs.io/dokku/).  
 
 ### Installation
 ```sh
@@ -11,7 +11,7 @@ npm install
 ```
 ##### Development
 ```sh
-# Start development server and visit http://localhost:3000
+# Start development server
 npm start
 
 # Create production build
@@ -35,8 +35,7 @@ I'm using a MacBook Pro without Nvidia GPU.
 
 [MobileNets](https://github.com/tensorflow/models/blob/master/research/slim/nets/mobilenet_v1.md) can be used for image classification. This guide shows the steps I took to retrain a MobileNet on a custom dataset, and how to convert and use the retrained model in the browser using TensorFlow.js. The total time to set up, retrain the model and use it in the browser can take less than 30 minutes (depending on the size of your dataset).  
 
-Repository containing the example app (HTML/JS and a retrained MobileNet V1/V2 model).  
-[https://github.com/woudsma/retrain-mobilenet-for-the-web](https://github.com/woudsma/retrain-mobilenet-for-the-web)
+[Example app](https://github.com/woudsma/retrain-mobilenet-for-the-web) - HTML/JS and a retrained MobileNet V1/V2 model.  
 
 ---
 
@@ -64,18 +63,18 @@ List available environments: `lsvirtualenv`
 ## 2. Retrain a MobileNet model using a custom dataset
 **If you get stuck at any point, see the [TensorFlow for Poets](https://codelabs.developers.google.com/codelabs/tensorflow-for-poets/index.html?index=..%2F..%2Findex#0) codelab, or [this article](https://proandroiddev.com/re-training-the-model-with-images-using-tensorflow-7758e9eb8db5)**  
 
-Active the project's virtualenv, install TensorFlow.js, and `git clone` the  [tensorflow-for-poets-2](https://github.com/googlecodelabs/tensorflow-for-poets-2) or [tensorflow/hub](https://github.com/tensorflow/hub) repository.
+Active the project's virtualenv, install TensorFlow.js, and `git clone` the  [googlecodelabs/tensorflow-for-poets-2](https://github.com/googlecodelabs/tensorflow-for-poets-2) or [tensorflow/hub](https://github.com/tensorflow/hub) repository.
 ```sh
 # Activate project environment
 # Install TensorFlow.js (includes tensorflow, tensorboard, tensorflowjs_converter)
 workon myproject
 pip install tensorflowjs
 
-# Clone the TensorFlow for Poets repository (for MobileNet V1)
+# Clone the TensorFlow for Poets repository (MobileNet V1)
 git clone https://github.com/googlecodelabs/tensorflow-for-poets-2 retrain-mobilenet-v1
 cd retrain-mobilenet-v1
 
-# Clone the TensorFlow Hub repository (for MobileNet V2)
+# Clone the TensorFlow Hub repository (MobileNet V2)
 git clone https://github.com/tensorflow/hub retrain-mobilenet-v2
 cd retrain-mobilenet-v2
 ```
@@ -196,7 +195,7 @@ rm tf_files/*.gz
 ```
 
 #### Convert to TensorFlow.js model
-Convert the quantized retrained graph to a TensorFlow.js compatible model using [tfjs-converter](https://github.com/tensorflow/tfjs-converter), and save in a new `tf_files/web` folder.
+Convert the quantized retrained graph to a TensorFlow.js compatible model using `tensorflowjs_converter`, and save in a new `tf_files/web` folder.
 ```sh
 tensorflowjs_converter \
   --input_format=tf_frozen_model \
@@ -367,7 +366,7 @@ Add to *package.json* scripts:
 #### Run the app
 Start the development server, run `npm start`.  
 (or `npx react-scripts start`)  
-Opens a browser window at [http://localhost:3000](http://localhost:3000)  
+Opens browser window at [http://localhost:3000](http://localhost:3000).  
 Watches project files and auto-reloads browser on change.  
 
 Create production build, run `npm run build`.  
@@ -376,10 +375,9 @@ Outputs `build` folder with static assets.
 
 ---
 
-#### Result
-HTML/JS + MobileNet_V1_0.25_224: 2MB  
-HTML/JS + MobileNet_V2_0.35_224: 1.1MB  
-*(using gzip compression)*  
+#### Result  
+MobileNet_V1_0.25_224: `2MB` gzipped  
+MobileNet_V2_0.35_224: `1.1MB` gzipped  
 
 ![Result](https://i.imgur.com/d2CdF6H.png "Result")  
 
@@ -406,4 +404,4 @@ If you are using CloudFlare CDN, make sure to disable Brotli compression (for so
 
 Please let me know if you notice any mistakes or things to improve. I'm always open to suggestions and feedback!  
 
-All credits go to the creators of [TensorFlow for Poets](https://codelabs.developers.google.com/codelabs/tensorflow-for-poets/index.html?index=..%2F..%2Findex#0) and [TensorFlow.js](https://js.tensorflow.org/). This guide is basically a combination of the original TensorFlow for Poets guide and the TensorFlow.js [documentation](https://js.tensorflow.org/tutorials/). Thanks to [Mateusz Budzar](https://proandroiddev.com/@mateuszbudzar) for a guide on [how to retrain a MobileNet V2 model](https://proandroiddev.com/re-training-the-model-with-images-using-tensorflow-7758e9eb8db5). Also, check out [ml5js](https://ml5js.org/)!
+Credits to the creators of [TensorFlow for Poets](https://codelabs.developers.google.com/codelabs/tensorflow-for-poets/index.html?index=..%2F..%2Findex#0) and [TensorFlow.js](https://js.tensorflow.org/). This guide is basically a combination of the original TensorFlow for Poets guide and the TensorFlow.js [documentation](https://js.tensorflow.org/tutorials/). Thanks to [Mateusz Budzar](https://proandroiddev.com/@mateuszbudzar) for a guide on [how to retrain a MobileNet V2 model](https://proandroiddev.com/re-training-the-model-with-images-using-tensorflow-7758e9eb8db5). Also, check out [ml5js](https://ml5js.org/)!
