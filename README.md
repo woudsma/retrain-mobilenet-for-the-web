@@ -268,7 +268,7 @@ npm install react-scripts @tensorflow/tfjs @tensorflow/tfjs-core @tensorflow/tfj
 
 # Copy web model files to assets folder
 # Move the labels JSON file into the src folder
-cp /path/to/tf_files/web/* public/assets/model
+cp -R /path/to/tf_files/web/* public/assets/model
 mv public/assets/model/labels.json src/labels.json
 
 # Add a few test images to public/assets/images manually
