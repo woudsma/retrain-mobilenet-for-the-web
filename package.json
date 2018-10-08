@@ -10,9 +10,15 @@
   "author": "Tjerk Woudsma",
   "license": "ISC",
   "dependencies": {
-    "@tensorflow/tfjs": "^0.12.3",
-    "@tensorflow/tfjs-converter": "^0.5.4",
-    "@tensorflow/tfjs-core": "^0.12.7",
-    "react-scripts": "^1.1.4"
-  }
+    "@tensorflow/tfjs": "^0.13.1",
+    "@tensorflow/tfjs-converter": "^0.6.2",
+    "@tensorflow/tfjs-core": "^0.13.3",
+    "react-scripts": "^2.0.4"
+  },
+  "browserslist": [
+    ">0.2%",
+    "not dead",
+    "not ie <= 11",
+    "not op_mini all"
+  ]
 }
