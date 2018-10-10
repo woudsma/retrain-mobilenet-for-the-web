@@ -139,7 +139,7 @@ For more information and how to adjust hyperparameters, check out the full [Tens
 
 #### Retrain a model using a pre-trained [MobileNet V2](https://github.com/tensorflow/models/tree/master/research/slim/nets/mobilenet) model  
 *Reference [article](https://proandroiddev.com/re-training-the-model-with-images-using-tensorflow-7758e9eb8db5)*.  
-Pick a TFHub module from [this page](https://github.com/tensorflow/hub/blob/master/docs/modules/image.md), and copy the link to the pre-trained model with type `feature_vector`.  
+Pick a TFHub module from [this page](https://tfhub.dev/s?module-type=image-feature-vector&network-architecture=mobilenet-v2), and copy the link to the pre-trained model with type `feature_vector`.  
 ```sh
 # Set environment variables
 MODULE=https://tfhub.dev/google/imagenet/mobilenet_v2_035_224/feature_vector/2
