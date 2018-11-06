@@ -1,7 +1,10 @@
 # Retrain MobileNet for the web
 
 This repository contains a HTML/JS boilerplate for serving a retrained MobileNet V1 or V2 model.  
+See the guide below on how to train your own MobileNet model and use it on the web.  
 Includes a `Dockerfile` and `nginx.default.conf` for easy deploys on e.g. [Dokku](http://dokku.viewdocs.io/dokku/).  
+
+**[DEMO](https://mobilenet-demo.omnio.studio/)**  
 
 ### Installation
 ```sh
@@ -31,16 +34,14 @@ docker run --rm -it -p 5000:5000 retrain-mobilenet-for-the-web
 ###### *DRAFT*  
 Combining [TensorFlow for Poets](https://codelabs.developers.google.com/codelabs/tensorflow-for-poets/index.html?index=..%2F..%2Findex#0) and [TensorFlow.js](https://github.com/tensorflow/tfjs).  
 Retrain a MobileNet V1 or V2 model on your own dataset using the CPU only.  
-I'm using a MacBook Pro without Nvidia GPU.  
+I'm using a MacBook Pro **without** Nvidia GPU.  
 
 [MobileNets](https://github.com/tensorflow/models/blob/master/research/slim/nets/mobilenet_v1.md) can be used for image classification. This guide shows the steps I took to retrain a MobileNet on a custom dataset, and how to convert and use the retrained model in the browser using TensorFlow.js. The total time to set up, retrain the model and use it in the browser can take less than 30 minutes (depending on the size of your dataset).  
-
-**[DEMO](https://mobilenet-demo.omnio.studio/)**  
 
 ---
 
 ## 1. Python setup
-Set up a virtual environment in Python. This keeps your system clean and dependencies separated. It's good practice not to `sudo` install packages. You can skip this section if you are already familiar with Python and [virtualenv](https://docs.python-guide.org/dev/virtualenvs/).  
+You only have to do this once. Set up a virtual environment in Python. This keeps your system clean and dependencies separated. It's good practice not to `sudo` install packages. You can skip this section if you are already familiar with Python and [virtualenv](https://docs.python-guide.org/dev/virtualenvs/).  
 
 We will use [virtualenv-burrito](https://github.com/brainsik/virtualenv-burrito), which is a script for installing both virtualenv and virtualenv-wrapper.
 ```sh
@@ -63,7 +64,7 @@ List available environments: `lsvirtualenv`
 ## 2. Retrain a MobileNet model using a custom dataset
 **If you get stuck at any point, see the [TensorFlow for Poets](https://codelabs.developers.google.com/codelabs/tensorflow-for-poets/index.html?index=..%2F..%2Findex#0) codelab, or [this article](https://proandroiddev.com/re-training-the-model-with-images-using-tensorflow-7758e9eb8db5)**  
 
-Active the project's virtualenv, install TensorFlow.js, and `git clone` the  [googlecodelabs/tensorflow-for-poets-2](https://github.com/googlecodelabs/tensorflow-for-poets-2) or [tensorflow/hub](https://github.com/tensorflow/hub) repository.
+Active the project's virtualenv, install TensorFlow.js, and `git clone` the  [googlecodelabs/tensorflow-for-poets-2](https://github.com/googlecodelabs/tensorflow-for-poets-2) or [tensorflow/hub](https://github.com/tensorflow/hub) repository. Choose whether you are going to train a MobileNet V1 or V2 model.
 ```sh
 # Activate project environment
 # Install TensorFlow.js (includes tensorflow, tensorboard, tensorflowjs_converter)
@@ -152,7 +153,7 @@ python examples/image_retraining/retrain.py \
   --output_labels=retrained_labels.txt \
   --bottleneck_dir=tf_files/bottlenecks \
   --summaries_dir=tf_files/training_summaries \
-  --intermediate_output_graphs_dir=tf_files/intermediate_graphs \
+  --intermediate_output_graphs_dir=tf_files/intermediate_graphs/ \
   --intermediate_store_frequency=500 \
   --saved_model_dir=tf_files/saved_model \
   --how_many_training_steps=2000 \
@@ -253,7 +254,7 @@ Create an app to run predictions in the browser using the retrained model conver
 With a few lines of code, we can classify an image using the retrained model. In this example, we use an `<img>` element as input to get a prediction. Available input types: `ImageData|HTMLImageElement|HTMLCanvasElement|HTMLVideoElement`.  
 
 #### Prepare app folder structure and install dependencies
-###### Or clone the example [repository](https://github.com/woudsma/retrain-mobilenet-for-the-web)
+###### Or clone this [repository](https://github.com/woudsma/retrain-mobilenet-for-the-web)
 ```sh
 # Create app folder structure
 mkdir -p myproject-frontend/{public/assets/{model,images},src}
