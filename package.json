@@ -1,7 +1,7 @@
 {
   "name": "retrain-mobilenet-for-the-web",
   "version": "1.0.0",
-  "description": "Retrain a MobileNet V1 model for the web with TensorFlow for Poets and TensorFlow.js",
+  "description": "Retrain a MobileNet V1 or V2 model for the web with TensorFlow.js",
   "main": "index.js",
   "scripts": {
     "start": "react-scripts start",
